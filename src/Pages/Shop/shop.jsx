@@ -15,7 +15,7 @@ function Shop() {
 
     const categories = ["Стільці", "Дивани", "Шафи", "Ліжка"];
     const materials = ["Дерево", "Метал", "Пластик"];
-    const purpose = ["Вітальня", "Спальня", "Кухня", "Офіс", "Дитяча"];
+    const purpose = ["Вітальня", "Спальня", "Кухня", "Офіс", "Дитяча", "Вулиця"];
 
     useEffect(() => {
         fetch("http://localhost:5000/api/products")
