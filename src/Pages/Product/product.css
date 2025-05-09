@@ -17,8 +17,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 50vw;  
-  height: 50vh;  
+  width: 50vw;
+  height: 50vh;
   position: relative;
   overflow: hidden;
 }
@@ -26,7 +26,7 @@
 model-viewer {
   width: 100%;
   height: 100%;
-  object-fit: contain; 
+  object-fit: contain;
 }
 
 .product-info-container {
@@ -38,9 +38,35 @@ model-viewer {
 }
 
 .product-characteristics {
-  height: 200px;
-  background-color: #f0f0f0;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  padding: 20px;
   margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.product-characteristics h3 {
+  margin-bottom: 10px;
+  font-size: 20px;
+  font-weight: 600;
+  color: #222;
+}
+
+.product-characteristics ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.product-characteristics li {
+  margin-bottom: 10px;
+  font-size: 16px;
+  color: #333;
+}
+
+.product-characteristics li strong {
+  color: #444;
+  margin-right: 6px;
 }
 
 .product-price {
@@ -50,13 +76,25 @@ model-viewer {
   margin-top: 10px;
 }
 
+/* 🔔 КНОПКА ДОДАТИ В КОШИК */
 .add-to-cart {
-  background: #2ecc71;
+  background: #b59f68;
   color: white;
   border: none;
-  padding: 15px;
+  padding: 15px 25px;
   font-size: 18px;
   margin-top: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: transform 0.1s ease, background-color 0.3s ease;
+}
+
+.add-to-cart:hover {
+  background-color: #a58d57;
+}
+
+.add-to-cart:active {
+  transform: scale(0.96);
 }
 
 .product-description-container {
@@ -65,9 +103,18 @@ model-viewer {
   background-color: white;
   width: 100%;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.product-description-container h2 {
+  font-size: 22px;
+  margin-bottom: 20px;
+  text-align: left;
 }
 
 .product-description {
   font-size: 18px;
   color: #555;
+  line-height: 1.6;
+  text-align: justify;
 }

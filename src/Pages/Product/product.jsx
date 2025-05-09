@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import "@google/model-viewer";
 import "./product.css";
+import { CartContext } from "../Cart/CartContext";
 
 function Product() {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
+  const { addToCart } = useContext(CartContext);
 
   useEffect(() => {
     fetch(`http://localhost:5000/api/products/${id}`)
@@ -19,9 +21,9 @@ function Product() {
   }, [id]);
 
   useEffect(() => {
-    const modelViewer = document.querySelector('model-viewer');
+    const modelViewer = document.querySelector("model-viewer");
     if (modelViewer) {
-      modelViewer.scale = "1 1 1";  
+      modelViewer.scale = "1 1 1";
     }
   }, [product]);
 
@@ -33,23 +35,36 @@ function Product() {
         <div className="product-3d-container">
           {product.model && (
             <model-viewer
-            src={product.model}
-            alt={product.name}
-            scale="1 1 1"
-            auto-rotate
-            camera-controls
-            camera-orbit="180deg 90deg 10m"
-          ></model-viewer>
+              src={product.model}
+              alt={product.name}
+              scale="1 1 1"
+              auto-rotate
+              camera-controls
+              camera-orbit="180deg 90deg 10m"
+            ></model-viewer>
           )}
         </div>
 
         <div className="product-info-container">
           <div className="product-characteristics">
-            <div className="placeholder"></div> {/* Прямокутник для характеристик */}
+            <h3>Характеристики</h3>
+            {product.tags ? (
+              <ul className="product-tags">
+                {Object.entries(product.tags).map(([key, value]) => (
+                  <li key={key}>
+                    <strong>{key}:</strong> {value}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p>Інформація відсутня</p>
+            )}
           </div>
 
           <p className="product-price">{product.price} грн</p>
-          <button className="add-to-cart">Додати в кошик</button>
+          <button className="add-to-cart" onClick={() => addToCart(product)}>
+            Додати в кошик
+          </button>
         </div>
       </div>
 
