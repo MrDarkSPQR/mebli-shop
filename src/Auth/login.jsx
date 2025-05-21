@@ -1,25 +1,56 @@
-import React from "react";
+import React, { useState } from "react";
 import "./auth.css";
 
 function Login({ onClose, switchToRegister }) {
-    return (
-        <div>
-            <button className="auth-close" onClick={onClose}>✖</button>
-            <h2>Авторизація</h2>
-            <input type="text" placeholder="Логін" className="auth-input" />
-            <input type="password" placeholder="Пароль" className="auth-input" />
-            <div className="auth-options">
-                <label>
-                    <input type="checkbox" /> Запам'ятати
-                </label>
-                <a href="/forgot-password" className="forgot-password">Забули пароль?</a>
-            </div>
-            <button className="auth-button">Увійти</button>
-            <p className="switch-auth">
-                Або <span className="auth-switch" onClick={switchToRegister}>Зареєструватися</span>
-            </p>
-        </div>
-    );
+  const [form, setForm] = useState({ email: "", password: "" });
+  const [error, setError] = useState("");
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+    setError("");
+  };
+
+  const handleLogin = async () => {
+    const { email, password } = form;
+
+    if (!email || !password) {
+      return setError("Заповніть всі поля");
+    }
+
+    try {
+      const res = await fetch("http://localhost:5000/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || "Помилка входу");
+
+      localStorage.setItem("token", data.token);
+      onClose(); 
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  return (
+    <div>
+      <button className="auth-close" onClick={onClose}>✖</button>
+      <h2>Авторизація</h2>
+      <input name="email" type="email" placeholder="Email" className="auth-input" onChange={handleChange} />
+      <input name="password" type="password" placeholder="Пароль" className="auth-input" onChange={handleChange} />
+      {error && <p className="auth-error">{error}</p>}
+      <div className="auth-options">
+        <label><input type="checkbox" /> Запам'ятати</label>
+        <a href="/forgot-password" className="forgot-password">Забули пароль?</a>
+      </div>
+      <button className="auth-button" onClick={handleLogin}>Увійти</button>
+      <p className="switch-auth">
+        Або <span className="auth-switch" onClick={switchToRegister}>Зареєструватися</span>
+      </p>
+    </div>
+  );
 }
 
 export default Login;
