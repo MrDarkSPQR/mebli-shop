@@ -28,7 +28,8 @@ function MyOrdersModal({ onClose }) {
       const fetchOrders = async () => {
         try {
           setLoading(true);
-          const response = await fetch(`http://localhost:5000/api/orders/user/${userId}`);
+          //const response = await fetch(`http://localhost:5000/api/orders/user/${userId}`);
+          const response = await fetch(`https://mebli-shop-backend.onrender.com/api/orders/user/${userId}`);
           const data = await response.json();
 
           if (!response.ok) {

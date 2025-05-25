@@ -11,7 +11,8 @@ function Product() {
   const { addToCart } = useContext(CartContext);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/api/products/${id}`)
+    //fetch(`http://localhost:5000/api/products/${id}`)
+    fetch(`https://mebli-shop-backend.onrender.com/api/products/${id}`)
       .then((res) => res.json())
       .then((data) => {
         setProduct(data);

@@ -29,7 +29,8 @@ function Shop() {
   const purpose = ["Вітальня", "Спальня", "Кухня", "Офіс", "Дитяча", "Вулиця"];
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/products")
+    //fetch("http://localhost:5000/api/products")
+    fetch("https://mebli-shop-backend.onrender.com/api/products")
       .then(res => res.json())
       .then(data => {
         const normalized = data.map(item => ({

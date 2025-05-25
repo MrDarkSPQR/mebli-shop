@@ -65,7 +65,7 @@ function PaymentModal({ onClose, onOrderSuccess, selectedCartItems, totalAmount 
         paymentMethod: paymentMethod,
         cardInfo: paymentMethod === 'card' ? { cardNumber: formData.cardNumber, cvv: formData.cvv } : null,
         orderItems: selectedCartItems.map(item => ({
-            productId: item._id, // Відправляємо _id товару як productId
+            productId: item._id, 
             name: item.name,
             price: item.price,
             quantity: item.quantity,
@@ -74,7 +74,8 @@ function PaymentModal({ onClose, onOrderSuccess, selectedCartItems, totalAmount 
       };
 
       try {
-        const response = await fetch("http://localhost:5000/api/orders", {
+        //const response = await fetch("http://localhost:5000/api/orders", {
+        const response = await fetch("https://mebli-shop-backend.onrender.com/api/orders", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
