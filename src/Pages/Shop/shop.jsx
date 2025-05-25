@@ -1,20 +1,30 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import "./shop.css";
 
 function Shop() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [sortOption, setSortOption] = useState("price-asc");
-  const [filters, setFilters] = useState({
+  
+  const location = useLocation();
+  const initialFilters = { 
     categories: [],
     materials: [],
     purpose: [],
     minPrice: '',
     maxPrice: '',
-  });
+    ...(location.state?.filters || {}) 
+  };
+  const [filters, setFilters] = useState(initialFilters);
 
-  const categories = ["Стілець", "Диван", "Шафа", "Ліжко", "Стіл"];
+  useEffect(() => {
+    if (location.state && location.state.filters) {
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+  }, [location.state]);
+
+  const categories = ["Стільці", "Дивани", "Шафи", "Ліжка", "Столи"];
   const materials = ["Дерево", "Метал", "Пластик"];
   const purpose = ["Вітальня", "Спальня", "Кухня", "Офіс", "Дитяча", "Вулиця"];
 
@@ -52,14 +62,15 @@ function Shop() {
     const { categories, materials, purpose, minPrice, maxPrice } = filters;
     return products
       .filter(product => {
-        const tags = product.tags || {};
+        const tags = product.tags;
         const price = product.price;
         const min = Number(minPrice);
         const max = Number(maxPrice);
 
-        const categoryMatch = !categories.length || categories.includes(tags.категорія);
-        const materialMatch = !materials.length || materials.includes(tags.матеріал);
-        const purposeMatch = !purpose.length || purpose.includes(tags.призначення);
+        const categoryMatch = !categories.length || (tags && tags.категорія && categories.includes(tags.категорія));
+        const materialMatch = !materials.length || (tags && tags.матеріал && materials.includes(tags.матеріал));
+        const purposeMatch = !purpose.length || (tags && tags.призначення && purpose.includes(tags.призначення));
+
         const minMatch = !minPrice || price >= min;
         const maxMatch = !maxPrice || price <= max;
 
@@ -82,6 +93,7 @@ function Shop() {
               <input
                 type="checkbox"
                 value={item}
+                checked={filters[filterName].includes(item)}
                 onChange={e =>
                   handleCheckboxChange(filterName, item, e.target.checked)
                 }

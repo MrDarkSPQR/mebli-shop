@@ -1,16 +1,34 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useState, useEffect } from "react";
 
 export const CartContext = createContext();
 
 export function CartProvider({ children }) {
-  const [cartItems, setCartItems] = useState([]);
+  const getInitialCart = () => {
+    try {
+      const storedCart = localStorage.getItem('cart');
+      return storedCart ? JSON.parse(storedCart) : [];
+    } catch (error) {
+      console.error("Помилка при читанні кошика з localStorage:", error);
+      return [];
+    }
+  };
+
+  const [cartItems, setCartItems] = useState(getInitialCart);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('cart', JSON.stringify(cartItems));
+    } catch (error) {
+      console.error("Помилка при збереженні кошика в localStorage:", error);
+    }
+  }, [cartItems]);
 
   const addToCart = (product) => {
     setCartItems((prev) => {
-      const exists = prev.find((item) => item.id === product._id);
+      const exists = prev.find((item) => item._id === product._id);
       if (exists) {
         return prev.map((item) =>
-          item.id === product._id
+          item._id === product._id 
             ? { ...item, quantity: item.quantity + 1 }
             : item
         );
@@ -18,7 +36,7 @@ export function CartProvider({ children }) {
         return [
           ...prev,
           {
-            id: product._id,
+            _id: product._id, 
             name: product.name,
             price: product.price,
             image: product.image,
@@ -31,31 +49,35 @@ export function CartProvider({ children }) {
     });
   };
 
-  const removeFromCart = (id) => {
-    setCartItems((prev) => prev.filter((item) => item.id !== id));
+  const removeFromCart = (_id) => { 
+    setCartItems((prev) => prev.filter((item) => item._id !== _id)); 
   };
 
-  const changeQuantity = (id, delta) => {
+  const changeQuantity = (_id, delta) => { 
     setCartItems((prev) =>
       prev.map((item) =>
-        item.id === id
+        item._id === _id 
           ? { ...item, quantity: Math.max(1, item.quantity + delta) }
           : item
       )
     );
   };
 
-  const toggleSelect = (id, isSelected) => {
+  const toggleSelect = (_id, isSelected) => { 
     setCartItems((prev) =>
       prev.map((item) =>
-        item.id === id ? { ...item, isSelected } : item
+        item._id === _id ? { ...item, isSelected } : item 
       )
     );
   };
 
+  const clearSelectedItems = () => {
+    setCartItems((prev) => prev.filter((item) => !item.isSelected));
+  };
+
   return (
     <CartContext.Provider
-      value={{ cartItems, addToCart, removeFromCart, changeQuantity, toggleSelect }}
+      value={{ cartItems, addToCart, removeFromCart, changeQuantity, toggleSelect, clearSelectedItems }}
     >
       {children}
     </CartContext.Provider>

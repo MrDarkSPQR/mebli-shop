@@ -62,7 +62,12 @@ function Product() {
           </div>
 
           <p className="product-price">{product.price} грн</p>
-          <button className="add-to-cart" onClick={() => addToCart(product)}>
+           <button 
+            className="add-to-cart" 
+            onClick={() => {
+              addToCart(product); 
+              alert("Товар додано до кошика!"); 
+            }}>
             Додати в кошик
           </button>
         </div>

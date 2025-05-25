@@ -1,9 +1,8 @@
-// Header.js
 import React from "react";
 import { NavLink } from "react-router-dom";
 import "./header.css";
 
-function Header({ openLoginModal, openCartModal }) {
+function Header({ openLoginModal, openCartModal, isAuthenticated, handleLogout }) {
   return (
     <header className="header">
       <nav>
@@ -14,7 +13,15 @@ function Header({ openLoginModal, openCartModal }) {
             Кошик
           </li>
         </ul>
-        <button className="login-button" onClick={openLoginModal}>Login</button>
+        {isAuthenticated ? (
+          <button className="login-button" onClick={handleLogout}>
+            Log Out
+          </button>
+        ) : (
+          <button className="login-button" onClick={openLoginModal}>
+            Login
+          </button>
+        )}
       </nav>
     </header>
   );

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import "./auth.css";
 
-function Login({ onClose, switchToRegister }) {
-  const [form, setForm] = useState({ email: "", password: "" });
+function Login({ onClose, switchToRegister, onLoginSuccess }) {
+  const [form, setForm] = useState({ username: "", password: "" });
   const [error, setError] = useState("");
 
   const handleChange = (e) => {
@@ -11,9 +11,9 @@ function Login({ onClose, switchToRegister }) {
   };
 
   const handleLogin = async () => {
-    const { email, password } = form;
+    const { username, password } = form;
 
-    if (!email || !password) {
+    if (!username || !password) {
       return setError("Заповніть всі поля");
     }
 
@@ -21,14 +21,16 @@ function Login({ onClose, switchToRegister }) {
       const res = await fetch("http://localhost:5000/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ username, password }),
       });
 
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || "Помилка входу");
 
       localStorage.setItem("token", data.token);
-      onClose(); 
+      if (onLoginSuccess) {
+        onLoginSuccess();
+      }
     } catch (err) {
       setError(err.message);
     }
@@ -38,8 +40,8 @@ function Login({ onClose, switchToRegister }) {
     <div>
       <button className="auth-close" onClick={onClose}>✖</button>
       <h2>Авторизація</h2>
-      <input name="email" type="email" placeholder="Email" className="auth-input" onChange={handleChange} />
-      <input name="password" type="password" placeholder="Пароль" className="auth-input" onChange={handleChange} />
+      <input name="username" type="text" placeholder="Логін" className="auth-input" onChange={handleChange} value={form.username} />
+      <input name="password" type="password" placeholder="Пароль" className="auth-input" onChange={handleChange} value={form.password} />
       {error && <p className="auth-error">{error}</p>}
       <div className="auth-options">
         <label><input type="checkbox" /> Запам'ятати</label>

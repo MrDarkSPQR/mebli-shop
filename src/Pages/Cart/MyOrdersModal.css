@@ -1,0 +1,130 @@
+.my-orders-modal-content {
+    background-color: var(--color-background);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+    max-width: 600px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.my-orders-modal-content h2 {
+    text-align: center;
+    color: var(--color-primary);
+    margin-bottom: 20px;
+    font-size: 1.8em;
+}
+
+.my-orders-modal-content .auth-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 1.5em;
+    cursor: pointer;
+    color: var(--color-text);
+}
+
+.my-orders-modal-content .auth-close:hover {
+    color: var(--color-accent);
+}
+
+.my-orders-modal-content p {
+    color: var(--color-text-secondary);
+    margin-bottom: 8px;
+    line-height: 1.4;
+}
+
+.my-orders-modal-content .error-message {
+    color: var(--color-error);
+    text-align: center;
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+.orders-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.order-item-card {
+    background-color: var(--color-card-background);
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    padding: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.order-item-card h3 {
+    color: var(--color-primary);
+    margin-bottom: 8px;
+    font-size: 1.3em;
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 5px;
+}
+
+.order-item-card h4 {
+    color: var(--color-primary);
+    margin-top: 10px;
+    margin-bottom: 8px;
+    font-size: 1.1em;
+}
+
+.order-items-list {
+    list-style-type: disc;
+    padding-left: 20px;
+    color: var(--color-text-secondary);
+    margin-bottom: 10px;
+}
+
+.order-items-list li {
+    margin-bottom: 3px;
+}
+
+.customer-info-toggle details {
+    margin-top: 10px;
+    background-color: var(--color-background-light);
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    padding: 8px 10px;
+}
+
+.customer-info-toggle summary {
+    font-weight: bold;
+    cursor: pointer;
+    color: var(--color-primary);
+}
+
+.customer-info-toggle p {
+    margin-top: 5px;
+    margin-bottom: 3px;
+    padding-left: 5px;
+}
+
+@media (max-width: 768px) {
+    .my-orders-modal-content {
+        padding: 15px;
+    }
+    .my-orders-modal-content h2 {
+        font-size: 1.6em;
+    }
+}
+
+@media (max-width: 480px) {
+    .my-orders-modal-content {
+        padding: 10px;
+        width: 95%;
+    }
+    .my-orders-modal-content h2 {
+        font-size: 1.4em;
+    }
+    .order-item-card {
+        padding: 10px;
+    }
+}
